@@ -8,7 +8,7 @@ void next_generation(Game *game)
     Board *new_board = malloc(sizeof(Board));
     init_board(current_board->rows, current_board->cols, new_board);
 
-    // Define the mask for the neighbours
+    // Definition du masque de calcul
     int mask[8][2] = {
         {-1, -1}, {-1, 0}, {-1, 1}, {0, -1}, {0, 1}, {1, -1}, {1, 0}, {1, 1}};
 
@@ -19,7 +19,7 @@ void next_generation(Game *game)
             int alive = current_board->cells[i][j].alive;
             int neighbors = 0;
 
-            // Use the mask to check for neighbours
+            // Utilisation du mask pour les verifications
             for (int m = 0; m < 8; m++)
             {
                 int k = i + mask[m][0];
