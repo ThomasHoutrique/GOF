@@ -44,8 +44,8 @@ int main(int argc, char *argv[])
     game->current_generation = first_gen;
     int generation_counter = 1;
 
-    // Randomize the board
-    randomize_board(board);
+    // Chargement de la table de jeu depuis le fichier
+    load_board(board);
     display_board(game->current_generation->board, gui->renderer, gui->font, generation_counter, gui->image_texture);
 
     // Si on appuie sur la flèche droite, on passe à la génération suivante

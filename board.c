@@ -14,17 +14,57 @@ void init_board(int rows, int cols, Board *board)
     }
 }
 
-void randomize_board(Board *board)
+void load_board(Board *board)
 {
-    srand(time(NULL));
-    for (int i = 0; i < board->rows; i++)
+    FILE *file = fopen("board.txt", "r");
+    if (file == NULL)
     {
-        for (int j = 0; j < board->cols; j++)
+        printf("Erreur lors de l'ouverture du fichier\n");
+        exit(1);
+    }
+
+    int rows = 0, cols = 0;
+    char ch;
+
+    // Récupération de la taille du fichier
+    while (!feof(file))
+    {
+        ch = fgetc(file);
+        if (ch == '\n')
         {
-            int alive = rand() % 5 == 0;
-            board->cells[i][j].alive = alive;
+            rows++;
+        }
+        else if (ch == ' ' && rows == 0)
+        {
+            cols++;
         }
     }
+    cols++; // Ajout du dernier espace
+
+    // Vérification de la taille du fichier
+    if (rows != board->rows || cols != board->cols)
+    {
+        printf("Erreur: la taille du fichier ne correspond pas à la taille du tableau\n");
+        printf("Taille du fichier: %d x %d\n", rows, cols);
+        printf("Taille du tableau: %d x %d\n", board->rows, board->cols);
+        exit(1);
+    }
+
+    rewind(file);
+
+    // Affectation des valeurs
+    for (int i = 0; i < rows; i++)
+    {
+        for (int j = 0; j < cols; j++)
+        {
+            if (!fscanf(file, "%d", &board->cells[i][j].alive))
+            {
+                break;
+            }
+        }
+    }
+
+    fclose(file);
 }
 
 void save_board_to_file(Board *board)

@@ -10,6 +10,6 @@ typedef struct
 } Board;
 
 void init_board(int rows, int cols, Board *board);
-void randomize_board(Board *board);
-void save_board_to_file();
+void load_board(Board *board);
+void save_board_to_file(Board *board);
 #endif
